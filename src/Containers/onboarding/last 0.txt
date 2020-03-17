@@ -1,0 +1,364 @@
+// import React,{Component} from 'react';
+// import login from './Styles/loginContainer.module.css';
+// import {
+//     Form, Input, Button,Layout,Select,notification
+//   } from 'antd';
+// import {NavLink} from 'react-router-dom';
+// import {connect} from 'react-redux';
+
+// //import Country list
+// import Country from './Country';
+
+// import {emailCheck,userRegistration} from '../../Store/Login/loginAction';
+// //Constants for APP
+// const Option = Select.Option;
+// const {Content} = Layout;
+
+// class Register extends Component {
+//     state = {confirmDirty: false}
+
+//     handleSubmit = (e) => {
+//         e.preventDefault();
+//         this.props.form.validateFields((err, values) => {
+//           if (!err) {
+//             if(values.password === values.confirmPassword && this.props.status === true){
+//               // console.log('Received values of form: ', values);
+//              this.props.dispatch(userRegistration(values));
+//             }else{
+//               notification['error']({
+//                 message: 'Password Mismatch'
+//               });
+//             }
+//           }
+//         });
+//       }
+
+//       handleConfirmBlur = (e) => {
+//         const value = e.target.value;
+//         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+//       }
+
+//       componentDidUpdate(prevProps){
+
+//         if(prevProps.errorMessage !== this.props.errorMessage){
+//           notification[this.props.status ? 'success':'error']({
+//             message: this.props.errorMessage,
+//           });
+//         }
+//       }
+
+// render() {
+//         const { getFieldDecorator } = this.props.form;
+//         const countryData = Country.map((name,key)=><Option key={key} value={name.name}>{name.name}</Option>)
+//     return (
+//           <Layout className={login.maindiv}>
+//             <div className={login.topDiv} />
+
+//             <Layout className={login.loginForm}>
+//             <div style={{flex:1,textAlign:'center'}}><NavLink to="/"> <img src={require('../../images/logo.png')} alt="logo" /></NavLink></div>
+//             <Content className={login.contentSection}>
+
+//                     <Form onSubmit={this.handleSubmit} className="login-form">
+
+//                     {/* First Name */}
+//                     <Form.Item>
+//                         {getFieldDecorator('firstName', {
+//                             rules: [{ required: true, message: 'Please input your First Name' }],
+//                         })(
+//                             <Input type="text" placeholder="First Name" />
+//                         )}
+//                       </Form.Item>
+
+//                       {/* Last Name */}
+//                       <Form.Item>
+//                         {getFieldDecorator('lastName', {
+//                             rules: [{ required: true, message: 'Please input your Last Name' }],
+//                         })(
+//                             <Input type="text" placeholder="Last Name" />
+//                         )}
+//                       </Form.Item>
+
+//                         {/* Email */}
+//                         <Form.Item>
+//                         {getFieldDecorator('email', {
+//                             rules: [{ required: true, message: 'Please input your Email' }],
+//                         })(
+//                             <Input type="email" placeholder="Email"
+//                             onBlur={(e)=>this.props.dispatch(emailCheck(e.target.value))}
+//                             />
+//                         )}
+//                         </Form.Item>
+
+//                         {/* Company Name */}
+//                         <Form.Item>
+//                         {getFieldDecorator('companyName', {
+//                             rules: [{ required: false, message: 'Please input your Company Name' }],
+//                         })(
+//                             <Input type="text" placeholder="Company Name" />
+//                         )}
+//                         </Form.Item>
+
+//                         {/* Countryb Select */}
+
+//                         <Form.Item>
+//                         {getFieldDecorator('country', {
+//                             rules: [{ required: false, message: 'Please input your Country' }],
+//                         })(
+//                             <Select
+//                               showSearch
+//                               allowClear
+//                               style={{ width: "100%" }}
+//                               placeholder="Select a Country"
+//                               optionFilterProp="children"
+//                               filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+//                             >
+//                             {countryData}
+//                           </Select>
+
+//                           )}
+//                         </Form.Item>
+
+
+//                         {/* Password */}
+//                         <Form.Item>
+//                         {getFieldDecorator('password', {
+//                             rules: [{ required: true, message: 'Please input your Password!' },
+//                             {
+//                               validator: this.validateToNextPassword,
+//                             }],
+//                         })(
+//                             <Input type="password" placeholder="Password" />
+//                         )}
+//                         </Form.Item>
+
+//                         {/* Password */}
+//                         <Form.Item>
+//                         {getFieldDecorator('confirmPassword', {
+//                             rules: [{ required: true, message: 'Please input your Correct Password!' },
+//                             {
+//                               validator: this.compareToFirstPassword,
+//                             }],
+//                         })(
+//                             <Input type="password" placeholder="Confirm Password" onBlur={this.handleConfirmBlur} />
+//                         )}
+//                         </Form.Item>
+
+//                         {/* submit Button */}
+//                         <Form.Item style={{textAlign:"center"}}>
+//                         <Button type="primary" htmlType="submit" className={login.btnPrimary} size="large">
+//                            Register Now
+//                         </Button>{" "}
+
+//                         </Form.Item>
+
+//                     </Form>
+//                     <div style={{textAlign:"center"}}>
+//                         Or <NavLink to="/" className={login.Link}>Login  </NavLink>
+//                     </div>
+//             </Content>
+
+//             </Layout>
+
+//           </Layout>
+//         );
+//     }
+// }
+
+// const RegisterContainer = Form.create({ name: 'normal_login' })(Register);
+
+// const mapStateToProps = (state) =>{
+//   return{
+//     errorMessage:state.login.errorMail,
+//     status:state.login.errroMailStatus
+//   }
+// }
+// export default connect(mapStateToProps)(RegisterContainer);
+
+
+import React,{Component} from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import { withStyles } from '@material-ui/styles';
+
+
+
+function RegisterContainer(){
+ 
+
+  const [values, setValues] = React.useState({
+    age: '',
+    name: 'hai',
+  });
+
+  handleChange(event) {
+    setValues(oldValues => ({
+      ...oldValues,
+      [event.target.name]: event.target.value,
+    }));
+  }
+
+render() {
+  const classes = this.props;
+
+    return (
+      <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div style={{marginTop:50,display: 'flex',flexDirection: 'column',alignItems: 'center',}}>
+        <Avatar style={{margin:5,backgroundColor: '#f50057',}}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <form style={{ width: '100%',marginTop:15,}} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="companyName"
+                label="Company Name"
+                name="companyName"
+                autoComplete="companyname"
+              />
+            </Grid>
+              <Grid item xs={12}>
+                <FormControl>
+                  <InputLabel htmlFor="age-auto-width">Age</InputLabel>
+                  <Select
+                    value={values.age}
+                    onChange={handleChange}
+                    input={<Input name="age" id="age-auto-width" />}
+                    autoWidth
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                  <FormHelperText>Auto width</FormHelperText>
+                </FormControl>
+              </Grid>
+            {/* <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid> */}
+            {/* <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                label="I want to receive inspiration, marketing promotions and updates via email."
+              />
+            </Grid> */}
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            style={{marginTop:15}}
+          >
+            Sign Up
+          </Button>
+          <Grid container justify="flex-end" style={{marginTop:10}}>
+            <Grid item>
+              <Link href="#" variant="body2">
+                Already have an account? Sign in
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
+        );
+    }
+}
+
+const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white,
+      // backgroundColor:theme.color
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+export default withStyles(useStyles)(RegisterContainer);
